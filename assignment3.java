@@ -1,4 +1,3 @@
-//Note via Seb
 //this is very very basic and wont even compile. Id like you guys to read the function names and descriptions and think if I //have thought about all that is required and put something there if you think appropriate. also write on messenger if you //change something and update the pastebin. And please think on how to store the grid in memory because I dont have a very //efficient idea for it.
 
 
@@ -10,6 +9,7 @@ import sheffield.*;
  *
  * @author sdn
  */
+
 public class Assignment3 {
 
     /**
@@ -20,6 +20,10 @@ public class Assignment3 {
 
     }*/
     //robot follows the black line (ideally to the left) until it finds a coloured dot
+    boolean used[] = new boolean[9];
+    int posX[] = new int[9];
+    int posY[] = new int[9];    
+
     public static followTheLine(leftMotor, rightMotor, speaker, colorSensor) {
         leftMotor.setSpeed(300);
         rightMotor.setSpeed(300);
@@ -40,19 +44,41 @@ public class Assignment3 {
         }
         return false;
     }
-    /*robot stores the dot position (how?) and its colour, updates the graph and the boolean array whether this colour has already been used. then checks if the dot has been used before - if so, then calls goToDot(previous dot). otherwise searches for another black line. I could try and implement that and goToDot(seb)
-    public static analyzeDot() {
+    // robot stores the dot position (how?) and its colour, updates the graph and the boolean array whether this colour has already been used. then checks if the dot has been used before - if so, then calls goToDot(previous dot). otherwise searches for another black line. I could try and implement that and goToDot(seb)
+    public static analyzeDot(colorSensor, positionX, positionY) {
+      ColorSensor.Color dotColor = new ColorSensor.Color;
 
+      if(colorSensor.getColor()!=color.BLACK && colorSensor.getColor()!=color.WHITE) {
+        dotColor=colorSensor.getColor();
+        if(used[dotColor.ordinal()]) {
+          goToDot(colorSensor, leftMotor, rightMotor, dotColor);
+        }
+        else {
+          posX[dotColor.ordinal()]=positionX;
+          posY[dotColor.ordinal()]=positionY;
+          used[dotColor.ordinal()]=true;
+        }
+
+      }
     }
-    public static goToDot() {
-
+    public static goToDot(colorSensor, leftMotor, rightMotor, dotColor) {
+      
     }
     public static void makeSound() {
 
-    }
-    public static void spin() {
-
     }*/
+    public static void spin(leftMotor, rightMotor) {
+      leftMotor.setSpeed(300);
+      rightMotor.setSpeed(300);
+      leftMotor.forward();
+      rightMotor.backward();
+      long curTime = System.currentTimeMillis();
+      long finishTime = curTime+5000;
+      if(System.currentTimeMillis() == finishTime) {
+        leftMotor.setSpeed(0);
+        rightMotor.setSpeed(0);  
+      }
+    }
     public static void testFunctions(leftMotor, rightMotor, speaker, colorSensor) {
       //test if all the things work
       leftMotor.setSpeed(400);
@@ -75,10 +101,11 @@ public class Assignment3 {
 
         Motor leftMotor = myRobot.getLargeMotor(Motor.Port.B);
         Motor rightMotor = myRobot.getLargeMotor(Motor.Port.C);
-
         Speaker speaker = myRobot.getSpeaker();
         ColorSensor colorSensor = myRobot.getColorSensor(Sensor.Port.S1); //not sure about the sensor.port thing
         testFunctions(leftMotor, rightMotor, speaker, colorSensor);
+
+        ColorSensor.Color color;
 
 
 
