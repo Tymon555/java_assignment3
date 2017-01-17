@@ -10,7 +10,7 @@ import sheffield.*;
  *
  * @author sdn
  */
-public class Assignment3 {
+public class assignment3 {
 
     /**
      * @param args the command line arguments
@@ -20,25 +20,29 @@ public class Assignment3 {
 
     }*/
     //robot follows the black line (ideally to the left) until it finds a coloured dot
-    public static followTheLine(leftMotor, rightMotor, speaker, colorSensor) {
-        leftMotor.setSpeed(300);
-        rightMotor.setSpeed(300);
-        leftMotor.forward();
-        rightMotor.forward();
-
-        final float TRESHOLD = 0.4; //thershold between black and white
-
-        while(true) {
-            if(colorSensor.getAmbient() < TRESHOLD) {
-              leftMotor.setSpeed(300);
+    public static void followTheLine(Robot myRobot, Motor leftMotor, Motor rightMotor, Speaker speaker, ColorSensor colorSensor) {
+        ColorSensor.Color x;
+        int i =0;
+        final double TRESHOLD = 0.4; //thershold between black and white
+        while(i<300) {
+          leftMotor.forward();
+          rightMotor.forward();
+          x = colorSensor.getColor();
+          System.out.println(x);
+            if(x == ColorSensor.Color.BLACK) {
+              leftMotor.setSpeed(100);
               rightMotor.setSpeed(0);
+
             }
             else {
               leftMotor.setSpeed(0);
-              rightMotor.setSpeed(300);
+              rightMotor.setSpeed(100);
             }
+
+            i++;
         }
-        return false;
+        return;
+
     }
     /*robot stores the dot position (how?) and its colour, updates the graph and the boolean array whether this colour has already been used. then checks if the dot has been used before - if so, then calls goToDot(previous dot). otherwise searches for another black line. I could try and implement that and goToDot(seb)
     public static analyzeDot() {
@@ -53,7 +57,7 @@ public class Assignment3 {
     public static void spin() {
 
     }*/
-    public static void testFunctions(leftMotor, rightMotor, speaker, colorSensor) {
+    public static void testFunctions(Robot myRobot, Motor leftMotor,Motor rightMotor, Speaker speaker, ColorSensor colorSensor ) {
       //test if all the things work
       leftMotor.setSpeed(400);
       rightMotor.setSpeed(400);
@@ -65,21 +69,19 @@ public class Assignment3 {
 
       myRobot.sleep(100);
 
-      return false;
+      return ;
     }
 
     public static void main(String[] args) {
 
         Robot myRobot = new Robot();
-        Sensor mySensor= new Sensor();
-
-        Motor leftMotor = myRobot.getLargeMotor(Motor.Port.B);
-        Motor rightMotor = myRobot.getLargeMotor(Motor.Port.C);
+        ColorSensor colorSensor = myRobot.getColorSensor(Sensor.Port.S1);
+        Motor leftMotor = myRobot.getLargeMotor(Motor.Port.C);
+        Motor rightMotor = myRobot.getLargeMotor(Motor.Port.B);
 
         Speaker speaker = myRobot.getSpeaker();
-        ColorSensor colorSensor = myRobot.getColorSensor(Sensor.Port.S1); //not sure about the sensor.port thing
-        testFunctions(leftMotor, rightMotor, speaker, colorSensor);
-
+        //testFunctions(myRobot, leftMotor, rightMotor, speaker, colorSensor);
+        followTheLine(myRobot, leftMotor, rightMotor, speaker, colorSensor);
 
 
         myRobot.close();
