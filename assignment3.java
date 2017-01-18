@@ -64,7 +64,6 @@ public class assignment3 {
     public static void followTheLine(Robot myRobot, Motor leftMotor, Motor rightMotor, Speaker speaker, ColorSensor colorSensor) {
         ColorSensor.Color x;
         int i =0;
-        final double TRESHOLD = 0.4; //thershold between black and white
         while(i<300) {
           leftMotor.forward();
           rightMotor.forward();
@@ -86,13 +85,15 @@ public class assignment3 {
 
     }
     // robot stores the dot position (how?) and its colour, updates the graph and the boolean array whether this colour has already been used. then checks if the dot has been used before - if so, then calls goToDot(previous dot). otherwise searches for another black line. I could try and implement that and goToDot(seb)
-    public static void analyzeDot(ColorSensor colorSensor,int positionX,int positionY) {
+    /*
+    commented because it doesn't compile -> declare posX,posY etc properly
+    public static void analyzeDot(ColorSensor colorSensor,int positionX,int positionY, Motor leftMotor, Motor rightMotor) {
       ColorSensor.Color dotColor =  colorSensor.getColor();
 
-      if(colorSensor.getColor()!=color.BLACK && colorSensor.getColor()!=color.WHITE) {
+      if(colorSensor.getColor()!=ColorSensor.Color.BLACK && colorSensor.getColor()!=ColorSensor.Color.WHITE) {
         dotColor=colorSensor.getColor();
         if(used[dotColor.ordinal()]) {
-          goToDot(colorSensor, leftMotor, rightMotor, dotColor);
+          //goToDot(colorSensor, leftMotor, rightMotor, dotColor);
         }
         else {
           posX[dotColor.ordinal()]=positionX;
@@ -102,7 +103,7 @@ public class assignment3 {
 
       }
       return;
-    }
+    }*/
     /*public static goToDot(colorSensor, leftMotor, rightMotor, dotColor) {
 
     }
